@@ -1,0 +1,4 @@
+.vsonconfig
+apk/
+src/
+__pycache__/

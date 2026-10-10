@@ -1,0 +1,24 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "VSON Smart account",
+        "description": "Account is case-sensitive. Tip: use a second account with the feeder shared to it, so the phone app stays logged in.",
+        "data": { "username": "Email or phone", "password": "Password" }
+      }
+    },
+    "error": {
+      "invalid_auth": "Login failed (check exact spelling and capitals)",
+      "cannot_connect": "Cannot reach VSON cloud"
+    },
+    "abort": {
+      "already_configured": "Account already configured",
+      "reauth_successful": "Re-authentication successful"
+    }
+  },
+  "entity": {
+    "binary_sensor": { "online": { "name": "Online" }, "food_low": { "name": "Food low" } },
+    "button": { "feed": { "name": "Feed" } },
+    "sensor": { "last_fed": { "name": "Last fed" } }
+  }
+}
