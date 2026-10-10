@@ -1,5 +1,6 @@
 from homeassistant.components.button import ButtonEntity
 from homeassistant.exceptions import HomeAssistantError
+from homeassistant.helpers.event import async_call_later
 
 from .api import VsonError
 from .entity import VsonEntity
@@ -16,4 +17,10 @@ class Feed(VsonEntity, ButtonEntity):
             await self.coordinator.client.feed(self.mac)
         except VsonError as e:
             raise HomeAssistantError(f"Feed failed: {e}") from e
-        await self.coordinator.async_request_refresh()
+        # Feeder reports to cloud a few seconds after feeding; re-poll so "Last fed" updates promptly.
+        # ponytail: fixed delays (device latency unmeasured); tune if 15s proves too short.
+        for delay in (5, 15):
+            async_call_later(self.hass, delay, self._refresh)
+
+    async def _refresh(self, _now) -> None:
+        await self.coordinator.async_refresh()
